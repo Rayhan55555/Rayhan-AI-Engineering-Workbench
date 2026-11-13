@@ -1,0 +1,30 @@
+{% extends "base.j2" %}
+
+{% block content %}
+## Coding & Architecture Auditor Task
+Instruction: {{ instruction }}
+
+## Target Code Context
+File: {{ target_file | default('Not specified') }}
+{% if code_context %}
+```python
+{{ code_context }}
+```
+{% else %}
+(No raw code context provided)
+{% endif %}
+
+{% if ast_analysis %}
+## AST Inspection Findings
+- Functions: {{ ast_analysis.functions | default([]) | join(', ') }}
+- Classes: {{ ast_analysis.classes | default([]) | join(', ') }}
+- Detected Issues: {{ ast_analysis.issues | default([]) | length }} issue(s)
+{% endif %}
+
+## Required Output Format
+Provide an engineer-ready response with:
+1. Architectural & Code Quality Findings
+2. Specific Actionable Recommendations
+3. Unified Diff or Code Improvements (where applicable)
+4. Known Limitations & Edge Cases
+{% endblock %}

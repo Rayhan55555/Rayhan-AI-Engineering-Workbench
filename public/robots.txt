@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /#workbench
+Disallow: /api/v1/auth
+Disallow: /api/v1/executions
+Disallow: /api/v1/content
+
+Sitemap: /sitemap.xml

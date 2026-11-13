@@ -1,0 +1,6 @@
+{
+  "name": "Rayhan AI Engineering Workbench",
+  "description": "Personal AI systems engineering workspace and public portfolio for Rayhan Badsha — Applied AI Systems Architect.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

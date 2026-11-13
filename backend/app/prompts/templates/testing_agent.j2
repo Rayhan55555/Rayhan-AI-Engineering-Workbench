@@ -1,0 +1,34 @@
+{% extends "base.j2" %}
+
+{% block content %}
+## Test Automation & QA Task
+Instruction: {{ instruction }}
+
+## Coverage & Quality Context
+Target: {{ target | default('backend/tests') }}
+{% if coverage %}
+Overall Coverage: {{ coverage.overall_coverage | default(0.0) }}%
+Total Files: {{ coverage.summary.total_files | default(0) }}
+Files < 50% Coverage: {{ coverage.summary.files_below_50 | default(0) }}
+{% endif %}
+
+{% if gaps %}
+## Identified Test Gaps
+{% for g in gaps %}
+- [{{ g.priority | upper }}] {{ g.function }}() in `{{ g.file }}`: {{ g.suggestion }}
+{% endfor %}
+{% endif %}
+
+{% if failures %}
+## Pytest Failures Context
+Total Failures: {{ failures.total_failures | default(0) }}
+{% for fail in failures.failures %}
+- {{ fail.test }} ({{ fail.type }}): {{ fail.likely_cause }}
+{% endfor %}
+{% endif %}
+
+## Required Output Format
+1. Test Suite Analysis & Root-Cause Breakdown
+2. Suggested Pytest Test Cases (marked with [REVIEW REQUIRED])
+3. Boundary & Error Condition Recommendations
+{% endblock %}

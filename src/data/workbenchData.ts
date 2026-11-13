@@ -1,0 +1,233 @@
+import { Agent, Project, ServiceItem } from '../types';
+
+export const RAYHAN_PROFILE = {
+  name: 'Rayhan Badsha',
+  title: 'Applied AI Systems Architect & Engineer',
+  brand: 'Rayhan AI Architecture',
+  location: 'Bangladesh',
+  bio: 'Architecting practical, production-oriented AI systems: autonomous agent loops, high-precision hybrid RAG, Model Context Protocol (MCP) integrations, and reliable multi-model orchestration with engineering rigor.',
+  githubUrl: 'https://github.com/rayhan-ai-architect',
+  linkedinUrl: 'https://www.linkedin.com/in/rayhan-badsha-a71662294',
+  masterclassPlaylistUrl: 'https://youtube.com/playlist?list=PLbIePX5F-An4',
+  contactEmail: 'contact@rayhan-ai.com', // Primary project discussion channel
+};
+
+export const INITIAL_AGENTS: Agent[] = [
+  {
+    id: 'curizx-ai-employee',
+    name: 'Curizx AI Employee',
+    codename: 'curizx-core',
+    category: 'Autonomous Agents',
+    role: 'Autonomous Customer & Sales Operations Agent',
+    architecture: 'Multi-turn ReAct Loop with Intent Routing & Structured Tool Calling',
+    targetModel: 'Claude 3.5 Sonnet / Gemini 2.5 Flash',
+    tools: ['CRM Sync', 'Vector Knowledge Retrieval', 'Calendar Booking', 'Lead Qualifier'],
+    status: 'Planned',
+    description: 'Flagship AI employee engineered for conversational sales qualification, domain knowledge retrieval, and automated workflow handoffs.',
+    repoUrl: 'https://github.com/rayhan-ai-architect/curizx-ai-employee',
+  },
+  {
+    id: 'rag-knowledge-architect',
+    name: 'Knowledge Architect RAG',
+    codename: 'rag-engine-v1',
+    category: 'RAG & Retrieval',
+    role: 'Hybrid Dense & Sparse Knowledge Retrieval Engine',
+    architecture: 'Dual-phase Dense Vector + BM25 Sparse Search with Cross-Encoder Reranking',
+    targetModel: 'Gemini 2.5 Flash / text-embedding-004',
+    tools: ['Chroma/Qdrant Vector DB', 'Hierarchical Document Chunker', 'Cohere Reranker'],
+    status: 'Planned',
+    description: 'Zero-hallucination document synthesis pipeline implementing semantic chunking, metadata filtering, and citation verification.',
+  },
+  {
+    id: 'mcp-tool-orchestrator',
+    name: 'MCP Tool Orchestrator',
+    codename: 'mcp-host-bridge',
+    category: 'Tooling & MCP',
+    role: 'Model Context Protocol Client & Server Bridge',
+    architecture: 'Standardized JSON-RPC 2.0 Transport over Stdio / SSE with Sandbox Permissions',
+    targetModel: 'Multi-Model Compatible',
+    tools: ['MCP Filesystem Server', 'PostgreSQL Query Server', 'GitHub API Protocol Server'],
+    status: 'Planned',
+    description: 'Interoperable tooling layer allowing LLMs to safely inspect local schemas, run read-only database queries, and trigger external API endpoints.',
+  },
+  {
+    id: 'multi-model-router',
+    name: 'Multi-Model Inference Router',
+    codename: 'infer-router',
+    category: 'Tooling & MCP',
+    role: 'Dynamic Cost & Latency Model Dispatcher',
+    architecture: 'Semantic Complexity Classifier with Automatic Fallback & Budget Quota Guard',
+    targetModel: 'Gemini 2.5 Flash / Claude 3.5 Haiku / GPT-4o',
+    tools: ['Token Counter', 'Latency Evaluator', 'JSON Schema Validator'],
+    status: 'Planned',
+    description: 'Intelligent gateway that routes routine classification tasks to sub-cent lightweight models while reserving frontier reasoning models for complex planning.',
+  },
+  {
+    id: 'workflow-automation-worker',
+    name: 'Workflow Automation Worker',
+    codename: 'flow-executor',
+    category: 'Workflow Automation',
+    role: 'Asynchronous Business Pipeline Automation',
+    architecture: 'Durable Event-Driven Job Execution with Idempotency & Human-in-the-Loop Triggers',
+    targetModel: 'Gemini 2.5 Flash',
+    tools: ['Webhook Ingestion', 'Payload Transformer', 'Slack/Email Notifier', 'State Store'],
+    status: 'Planned',
+    description: 'Autonomous background daemon that ingests webhooks, validates payloads through LLM structure extraction, and triggers downstream CRM and database events.',
+  },
+  {
+    id: 'code-arch-auditor',
+    name: 'Code & Architecture Auditor',
+    codename: 'arch-sentinel',
+    category: 'Engineering & Evaluation',
+    role: 'System Prompt & Schema Security Reviewer',
+    architecture: 'Static AST Verification + Prompt Injection Vulnerability Scanning',
+    targetModel: 'Claude 3.5 Sonnet',
+    tools: ['AST Parser', 'Pydantic/Zod Schema Linter', 'Adversarial Prompt Probe'],
+    status: 'Planned',
+    description: 'Continuous audit harness checking tool definition signatures, prompt guardrails, and deterministic fallback boundaries.',
+  },
+  {
+    id: 'eval-benchmark-harness',
+    name: 'Eval & Benchmark Harness',
+    codename: 'eval-matrix',
+    category: 'Engineering & Evaluation',
+    role: 'LLM Response Quality & Groundedness Assessor',
+    architecture: 'Automated Reference-Free & Ground-Truth Scoring Matrix (RAG Triad)',
+    targetModel: 'Gemini 2.5 Pro / GPT-4o-mini as Judge',
+    tools: ['Context Relevance Scorer', 'Faithfulness Detector', 'Answer Relevance Analyzer'],
+    status: 'Planned',
+    description: 'Systematic regression suite measuring retrieval faithfulness, answer hallucination rate, and token efficiency before production deployments.',
+  },
+  {
+    id: 'masterclass-content-synth',
+    name: 'Masterclass Content Synthesizer',
+    codename: 'masterclass-synth',
+    category: 'Workflow Automation',
+    role: 'Technical AI Curriculum & Architecture Breakdown Writer',
+    architecture: 'Multi-stage Technical Distillation and Diagram Structuring Pipeline',
+    targetModel: 'Claude 3.5 Sonnet / Gemini 2.5 Flash',
+    tools: ['Markdown Formatter', 'ASCII Diagram Generator', 'YouTube Show-Notes Compiler'],
+    status: 'Planned',
+    description: 'Engineering knowledge synthesizer structuring lessons, implementation blueprints, and code walkthroughs for the AI Engineering Masterclass.',
+  },
+];
+
+export const FEATURED_PROJECTS: Project[] = [
+  {
+    id: 'curizx-ai-employee',
+    title: 'Curizx AI Employee',
+    subtitle: 'Autonomous Conversational SaaS & Business Workflow Engine',
+    description: 'Flagship open-source AI SaaS project engineered for AI-assisted customer conversations, inbound sales lead generation, domain business knowledge retrieval, and automated CRM workflow dispatch.',
+    status: 'Prototype',
+    githubUrl: 'https://github.com/rayhan-ai-architect/curizx-ai-employee',
+    featured: true,
+    techStack: ['TypeScript', 'Node.js', 'LLM Tool Calling', 'Vector RAG', 'REST API', 'Next.js'],
+    architectureHighlights: [
+      'Multi-step ReAct agent loop with deterministic guardrails',
+      'Context-aware lead qualification schema validation',
+      'Domain knowledge retrieval with citation linking',
+      'Clean webhook dispatch for CRM and external workflows',
+    ],
+  },
+];
+
+export const SERVICES_LIST: ServiceItem[] = [
+  {
+    id: 'service-agent-design',
+    number: '01',
+    title: 'AI Agent Design and Development',
+    problem: 'Standard chatbots fail in production because they lack memory persistence, deterministic tool execution, and reliable state-machine boundaries.',
+    deliverables: [
+      'Custom ReAct / Plan-and-Solve autonomous loops',
+      'Deterministic function-calling interfaces with strict schema validation',
+      'Session memory management with conversation compaction',
+      'Human-in-the-loop escalation checkpoints'
+    ],
+    approach: 'We design agents as stateful distributed systems rather than single prompt chains, using structured schemas and sandboxed tool executions.',
+    ctaText: 'Discuss Agent Architecture',
+  },
+  {
+    id: 'service-rag-systems',
+    number: '02',
+    title: 'RAG and Knowledge Assistant Systems',
+    problem: 'Naive vector search frequently yields hallucinations, irrelevant document chunks, and outdated contextual data in enterprise settings.',
+    deliverables: [
+      'Hybrid dense vector + sparse BM25 retrieval architectures',
+      'Context-aware chunking and document hierarchy parsing',
+      'Cross-encoder reranking pipelines for high precision',
+      'Citation-backed answer synthesis with hallucination filters'
+    ],
+    approach: 'We implement the complete RAG triad: context relevance, groundedness verification, and answer relevance with automated evaluation.',
+    ctaText: 'Explore Knowledge Systems',
+  },
+  {
+    id: 'service-llm-integrations',
+    number: '03',
+    title: 'LLM API and Multi-Model Integrations',
+    problem: 'Single-vendor dependency and frontier-model overuse create unsustainable token costs, vendor lock-in, and unpredictable latency.',
+    deliverables: [
+      'Unified multi-provider abstraction layer (OpenAI, Anthropic, Gemini, local models)',
+      'Intelligent complexity-based model routing (Flash models for fast tasks, frontier models for planning)',
+      'Automated rate-limit retries and circuit breakers',
+      'Streaming response handling and token budget quotas'
+    ],
+    approach: 'We build resilient model gateways with semantic routing, ensuring cost-effective throughput and high availability.',
+    ctaText: 'Design Model Gateway',
+  },
+  {
+    id: 'service-workflow-automation',
+    number: '04',
+    title: 'AI Workflow and Business Automation',
+    problem: 'Manual business operations like lead qualification, document triage, and report generation bottleneck scaling operations.',
+    deliverables: [
+      'End-to-end event-driven asynchronous processing pipelines',
+      'Unstructured document-to-JSON extraction engines',
+      'Automated triage, routing, and ticket enrichment bots',
+      'Durable job queues with idempotency guarantees'
+    ],
+    approach: 'We embed AI into existing business stacks via secure webhooks, background queues, and verified JSON contracts.',
+    ctaText: 'Automate Business Workflows',
+  },
+  {
+    id: 'service-mcp-integrations',
+    number: '05',
+    title: 'MCP and Tool-Calling Integrations',
+    problem: 'Custom ad-hoc tool integrations break easily and cannot be reused across different AI assistants and desktop hosts.',
+    deliverables: [
+      'Model Context Protocol (MCP) server & client architectures',
+      'Custom tool providers for databases, file systems, and internal APIs',
+      'Stdio and SSE protocol transport implementations',
+      'Sandboxed authorization boundaries and read-only query layers'
+    ],
+    approach: 'We follow the official open MCP standard to ensure your internal tools connect securely and portably across modern AI hosts.',
+    ctaText: 'Build MCP Protocol Layer',
+  },
+  {
+    id: 'service-saas-architecture',
+    number: '06',
+    title: 'AI SaaS Architecture and MVP Prototyping',
+    problem: 'Startups often build non-scalable AI demos that collapse under user load, runaway inference costs, or poor UX feedback loops.',
+    deliverables: [
+      'Full-stack architecture blueprints (Frontend, Backend, Vector DB, Cache)',
+      'Production-ready MVP scaffolding with auth, billing, and rate limits',
+      'Streaming UI components with optimistic updates',
+      'Telemetry instrumentation for latency, cost, and user actions'
+    ],
+    approach: 'We build production-oriented SaaS MVPs optimized for rapid market validation with solid engineering foundations.',
+    ctaText: 'Plan SaaS Prototype',
+  },
+  {
+    id: 'service-architecture-consulting',
+    number: '07',
+    title: 'Technical AI Architecture Consulting',
+    problem: 'Engineering teams struggle with architectural decisions: build vs. buy, fine-tuning vs. RAG, and framework selection.',
+    deliverables: [
+      'Comprehensive AI system architecture audits',
+      'Technology stack evaluation and feasibility assessments',
+      'Evaluation strategy and prompt security hardening',
+      'Executive architectural roadmaps and implementation specs'
+    ],
+    approach: 'Direct advisory sessions focusing on engineering trade-offs, security postures, operational costs, and deployment realities.',
+    ctaText: 'Book Technical Advisory',
+  },
+];

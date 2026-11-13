@@ -1,0 +1,31 @@
+{% extends "base.j2" %}
+
+{% block content %}
+## Security Hardening Task
+Instruction: {{ instruction }}
+
+## Scan Findings Context
+Target: {{ target | default('Workspace') }}
+Total Static Findings: {{ total_findings | default(0) }}
+
+{% if findings_summary %}
+- Critical: {{ findings_summary.critical | default(0) }}
+- High: {{ findings_summary.high | default(0) }}
+- Medium: {{ findings_summary.medium | default(0) }}
+- Masked Secrets Detected: {{ findings_summary.secrets_detected | default(0) }}
+{% endif %}
+
+{% if top_findings %}
+## Top Detected Issues
+{% for f in top_findings %}
+- [{{ f.rule_id }}] ({{ f.severity }}) {{ f.title }} in `{{ f.file }}`:{{ f.line }}
+  Snippet: `{{ f.snippet }}`
+{% endfor %}
+{% endif %}
+
+## Required Output Format
+1. Threat Severity & CWE Analysis
+2. Remediation Steps & Safe Patterns (with code examples)
+3. Residual Risks & What Was NOT Checked
+NEVER include raw secret values in output. All credentials must remain masked.
+{% endblock %}

@@ -1,0 +1,18 @@
+import enum
+
+
+class Severity(str, enum.Enum):
+    CRITICAL = "Critical"
+    HIGH = "High"
+    MEDIUM = "Medium"
+    LOW = "Low"
+    INFO = "Info"
+
+
+class RuleCategory(str, enum.Enum):
+    INJECTION_RISKS = "INJECTION_RISKS"
+    AUTHENTICATION_ISSUES = "AUTHENTICATION_ISSUES"
+    AUTHORIZATION_ISSUES = "AUTHORIZATION_ISSUES"
+    DATA_EXPOSURE = "DATA_EXPOSURE"
+    INPUT_VALIDATION = "INPUT_VALIDATION"
+    DEPENDENCY_RISKS = "DEPENDENCY_RISKS"
