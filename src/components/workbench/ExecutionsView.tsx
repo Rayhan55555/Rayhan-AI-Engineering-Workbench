@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { ExecutionItem, ExecutionStatusType } from '../../types';
 import { listExecutions } from '../../lib/api/executions';
 import { EmptyState } from '../EmptyState';
+import { BengaliOutputCard } from './BengaliOutputCard';
+import { findAgentBengaliProfile, resolveBengaliReport } from '../../data/bengaliAgents';
 import { 
   PlayCircle, 
   RotateCw, 
@@ -206,15 +208,17 @@ export const ExecutionsView: React.FC<ExecutionsViewProps> = ({ onNavigateToAgen
       {/* Details Modal */}
       {selectedItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs">
-          <div className="bg-[#0F172A] border border-slate-800 rounded-lg max-w-lg w-full p-5 space-y-4">
+          <div className="bg-[#0F172A] border border-slate-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto p-5 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <h3 className="text-sm font-bold text-white font-mono flex items-center gap-2">
                 <Terminal className="w-4 h-4 text-[#00D4FF]" />
-                <span>Execution Details [{selectedItem.agent_slug}]</span>
+                <span>
+                  {findAgentBengaliProfile(selectedItem.agent_slug).bengaliName} [{selectedItem.agent_slug}]
+                </span>
               </h3>
               <button
                 onClick={() => setSelectedItem(null)}
-                className="text-slate-400 hover:text-white"
+                className="text-slate-400 hover:text-white px-2 py-1"
               >
                 ✕
               </button>
@@ -222,31 +226,24 @@ export const ExecutionsView: React.FC<ExecutionsViewProps> = ({ onNavigateToAgen
 
             <div className="space-y-3 text-xs font-mono">
               <div>
-                <span className="text-slate-500 block text-[10px] uppercase">Instruction:</span>
+                <span className="text-slate-500 block text-[10px] uppercase mb-1">নির্দেশনা:</span>
                 <p className="p-2.5 bg-[#0A0F1E] border border-slate-800 rounded text-slate-300">
                   {selectedItem.instruction}
                 </p>
               </div>
 
-              <div>
-                <span className="text-slate-500 block text-[10px] uppercase">Output:</span>
-                <p className="p-3 bg-[#0A0F1E] border border-slate-800 rounded text-slate-200 whitespace-pre-wrap leading-relaxed">
-                  {selectedItem.output || selectedItem.error_message || 'No output recorded'}
-                </p>
-              </div>
+              <BengaliOutputCard
+                report={resolveBengaliReport(selectedItem)}
+                rawOutput={selectedItem.output}
+                errorMessage={selectedItem.error_message}
+                durationMs={selectedItem.duration_ms}
+                simulated={selectedItem.simulated}
+              />
 
               <div className="grid grid-cols-2 gap-2 text-[11px] pt-2 border-t border-slate-800">
                 <div>
                   <span className="text-slate-500">Status: </span>
                   <span className="text-white">{selectedItem.status}</span>
-                </div>
-                <div>
-                  <span className="text-slate-500">Duration: </span>
-                  <span className="text-white">{selectedItem.duration_ms || 0} ms</span>
-                </div>
-                <div>
-                  <span className="text-slate-500">Mode: </span>
-                  <span className="text-amber-400">⚠️ Simulated</span>
                 </div>
                 <div>
                   <span className="text-slate-500">Task ID: </span>
@@ -258,9 +255,9 @@ export const ExecutionsView: React.FC<ExecutionsViewProps> = ({ onNavigateToAgen
             <div className="pt-2 flex justify-end">
               <button
                 onClick={() => setSelectedItem(null)}
-                className="px-4 py-1.5 text-xs font-mono text-[#0A0F1E] bg-[#00D4FF] hover:bg-[#38bdf8] rounded"
+                className="px-4 py-2 text-xs font-mono text-[#0A0F1E] font-semibold bg-[#00D4FF] hover:bg-[#38bdf8] rounded"
               >
-                Close
+                বন্ধ করুন
               </button>
             </div>
           </div>

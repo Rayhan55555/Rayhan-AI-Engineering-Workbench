@@ -3,7 +3,6 @@ import { WorkbenchTab } from '../../types';
 import { StatusBadge } from '../StatusBadge';
 import { EmptyState } from '../EmptyState';
 import { 
-  INITIAL_AGENTS, 
   FEATURED_PROJECTS, 
   RAYHAN_PROFILE 
 } from '../../data/workbenchData';
@@ -73,8 +72,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <span className="text-xs font-mono uppercase">Agent Registry</span>
             <Bot className="w-4 h-4 text-[#00D4FF]" />
           </div>
-          <div className="text-2xl font-bold text-white font-mono">8</div>
-          <div className="text-xs text-slate-500 font-mono mt-1">Status: All Planned</div>
+          <div className="text-2xl font-bold text-white font-mono tabular-nums">9</div>
+          <div className="text-xs text-slate-500 font-mono mt-1">Bengali Agent Studio Active</div>
         </div>
 
         <div className="p-4 bg-[#0F172A] border border-slate-800 rounded-lg">
@@ -165,13 +164,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="p-6 bg-[#0F172A] border border-slate-800 rounded-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 text-xs font-mono text-slate-400 mb-1">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span className="text-slate-300 font-semibold">Phase 03 Agent Runtime Active</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span className="text-slate-300 font-semibold">Agent Runtime Active</span>
               <span>·</span>
-              <span className="text-[#F59E0B]">Simulated = True</span>
+              <span className="text-[#00D4FF]">9 Bengali Agents</span>
             </div>
             <p className="text-xs text-slate-400 max-w-xl">
-              All 8 agents support lifecycle state transitions, permission verification (READ_ONLY & SUGGEST scopes), background execution tasks, and persistent database tracking.
+              All 9 specialized agents support lifecycle state transitions, permission verification (READ_ONLY &amp; SUGGEST scopes), background execution tasks, and bilingual Bengali reports.
             </p>
           </div>
           <div className="flex items-center gap-3 shrink-0">

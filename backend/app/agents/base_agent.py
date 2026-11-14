@@ -172,7 +172,26 @@ class BaseAgent(ABC):
 
             # 5. Record results
             execution.status = ExecutionStatus.Completed if result.success else ExecutionStatus.Failed
-            execution.output = result.output
+            final_output = result.output
+            if task.context.get("language") == "bn" and isinstance(final_output, str):
+                try:
+                    import json as _json
+                    parsed_out = _json.loads(final_output)
+                    if isinstance(parsed_out, dict):
+                        from backend.app.agents.bengali_presenter import build_bengali_report
+                        parsed_out["bn_report"] = build_bengali_report(
+                            agent_slug=self.slug,
+                            instruction=task.instruction,
+                            scope=task.scope.value,
+                            status_value=execution.status.value,
+                            output=final_output,
+                            simulated=result.simulated,
+                        )
+                        final_output = _json.dumps(parsed_out, indent=2, ensure_ascii=False)
+                except Exception:
+                    pass
+
+            execution.output = final_output
             execution.simulated = result.simulated
             execution.completed_at = datetime.now(timezone.utc)
             execution.duration_ms = int((time.perf_counter() - start_perf) * 1000)

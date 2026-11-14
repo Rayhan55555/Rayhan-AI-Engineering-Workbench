@@ -39,6 +39,7 @@ class ExecutionRead(BaseModel):
     started_at: Optional[datetime] = None
     completed_at: Optional[datetime] = None
     created_at: datetime
+    bn_report: Optional[Dict[str, Any]] = None
 
     model_config = ConfigDict(from_attributes=True)
 

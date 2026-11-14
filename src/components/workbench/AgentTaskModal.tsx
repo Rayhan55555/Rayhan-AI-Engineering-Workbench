@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Agent, ExecutionItem } from '../../types';
 import { submitExecution, getExecutionById, approveExecution, rejectExecution } from '../../lib/api/executions';
 import { DiffView } from './DiffView';
+import { BengaliOutputCard } from './BengaliOutputCard';
+import { BENGALI_LOADING_MESSAGES, resolveBengaliReport } from '../../data/bengaliAgents';
 import { 
   X, 
   Terminal, 
@@ -114,7 +116,7 @@ export const AgentTaskModal: React.FC<AgentTaskModalProps> = ({
       instruction,
       scope,
       undefined,
-      contextPayload
+      { ...contextPayload, language: 'bn' }
     );
 
     if (res.error) {
@@ -488,13 +490,22 @@ export const AgentTaskModal: React.FC<AgentTaskModalProps> = ({
                 </div>
               )}
 
-              {/* Execution Output */}
-              <div className="space-y-1 text-xs font-mono">
-                <div className="text-slate-400 uppercase text-[10px]">Agent Output & Telemetry:</div>
-                <div className="p-3 bg-[#0A0F1E] border border-slate-800 rounded text-slate-200 whitespace-pre-wrap leading-relaxed min-h-[90px] max-h-60 overflow-y-auto">
-                  {execution?.output || execution?.error_message || (isSubmitting ? 'Processing in background...' : 'No output')}
+              {/* Execution Output in Bengali 4-Part Format */}
+              {execution ? (
+                <BengaliOutputCard
+                  report={resolveBengaliReport(execution)}
+                  rawOutput={execution.output}
+                  errorMessage={execution.error_message}
+                  durationMs={execution.duration_ms}
+                  simulated={execution.simulated}
+                  defaultFilePath={filePath}
+                />
+              ) : (
+                <div className="p-4 bg-[#0A0F1E] border border-slate-800 rounded text-sm text-[#00D4FF] flex items-center gap-2">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>{BENGALI_LOADING_MESSAGES[0]}</span>
                 </div>
-              </div>
+              )}
 
               {/* Footer Actions */}
               <div className="pt-2 flex items-center justify-end gap-3 border-t border-slate-800">

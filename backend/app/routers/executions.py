@@ -10,6 +10,7 @@ from backend.app.agents.base_agent import (
     ExecutionContext,
     TaskScope,
 )
+from backend.app.agents.bengali_presenter import build_bengali_report
 from backend.app.agents.registry import agent_registry
 from backend.app.database import AsyncSessionLocal, get_db
 from backend.app.dependencies import get_current_user
@@ -26,6 +27,30 @@ from backend.app.schemas.execution import (
 )
 
 router = APIRouter(prefix="/executions", tags=["Agent Executions"])
+
+IMPLEMENT_SUPPORTED_AGENTS = {
+    "arch-sentinel",
+    "testing-agent",
+    "architecture-agent",
+    "documentation-agent",
+    "rag-engine-v1",
+    "devops-agent",
+    "masterclass-synth",
+}
+
+
+def _serialize_execution(execution: AgentExecution) -> ExecutionRead:
+    schema_obj = ExecutionRead.model_validate(execution)
+    schema_obj.bn_report = build_bengali_report(
+        agent_slug=execution.agent_slug,
+        instruction=execution.instruction,
+        scope=execution.scope.value if hasattr(execution.scope, "value") else str(execution.scope),
+        status_value=execution.status.value if hasattr(execution.status, "value") else str(execution.status),
+        output=execution.output,
+        error_message=execution.error_message,
+        simulated=bool(execution.simulated),
+    )
+    return schema_obj
 
 
 async def run_agent_in_background(
@@ -76,30 +101,53 @@ async def submit_execution(
                 "status_code": 403,
             },
         )
-    if body.scope == TaskScope.implement and norm_slug not in ("arch-sentinel", "testing-agent"):
+    if body.scope == TaskScope.implement and norm_slug not in IMPLEMENT_SUPPORTED_AGENTS:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail={
                 "error": "scope_restricted",
-                "message": f"Execution scope 'implement' is only supported for 'arch-sentinel' and 'testing-agent' in Phase 06.",
+                "message": (
+                    f"Execution scope 'implement' is not enabled for '{norm_slug}'. Use 'read_only' or 'suggest'."
+                ),
                 "status_code": 403,
             },
         )
 
     # 2. Check Agent Status in Database
+    agent_impl = agent_registry.get(norm_slug)
     agent_res = await db.execute(
         select(Agent).where(Agent.slug == norm_slug)
     )
     db_agent = agent_res.scalars().first()
     if not db_agent:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail={
-                "error": "not_found",
-                "message": f"Agent '{body.agent_slug}' not found in registry.",
-                "status_code": 404,
-            },
-        )
+        if agent_impl and norm_slug in (
+            "security-agent",
+            "testing-agent",
+            "architecture-agent",
+            "documentation-agent",
+            "devops-agent",
+        ):
+            db_agent = Agent(
+                slug=agent_impl.slug,
+                name=agent_impl.name,
+                purpose=agent_impl.purpose,
+                status=AgentStatus.Available,
+                allowed_tools=list(agent_impl.allowed_tools),
+                phase=agent_impl.phase,
+                limitations=list(agent_impl.limitations),
+            )
+            db.add(db_agent)
+            await db.commit()
+            await db.refresh(db_agent)
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail={
+                    "error": "not_found",
+                    "message": f"Agent '{body.agent_slug}' not found in registry.",
+                    "status_code": 404,
+                },
+            )
 
     if db_agent.status != AgentStatus.Available:
         raise HTTPException(
@@ -112,7 +160,6 @@ async def submit_execution(
         )
 
     # Check agent implementation in code registry
-    agent_impl = agent_registry.get(norm_slug)
     if not agent_impl:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -234,7 +281,7 @@ async def get_execution(
             },
         )
 
-    return execution
+    return _serialize_execution(execution)
 
 
 @router.get(
@@ -273,7 +320,7 @@ async def list_executions(
     total_pages = math.ceil(total_count / limit) if total_count > 0 else 0
 
     return PaginatedResponse[ExecutionRead](
-        items=list(items),
+        items=[_serialize_execution(item) for item in items],
         total=total_count,
         page=page,
         limit=limit,
@@ -329,7 +376,7 @@ async def cancel_execution(
     execution.error_message = "Cancelled by user."
     await db.commit()
     await db.refresh(execution)
-    return execution
+    return _serialize_execution(execution)
 
 
 @router.post(
@@ -421,7 +468,7 @@ async def approve_execution(
         execution_id=execution.id,
     )
 
-    return execution
+    return _serialize_execution(execution)
 
 
 @router.post(
@@ -465,5 +512,5 @@ async def reject_execution(
     execution.error_message = f"Execution rejected by user: {body.reason}"
     await db.commit()
     await db.refresh(execution)
-    return execution
+    return _serialize_execution(execution)
 

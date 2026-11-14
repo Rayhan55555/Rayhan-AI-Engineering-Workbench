@@ -29,6 +29,12 @@ export interface Agent {
   status: AgentStatus;
   description: string;
   repoUrl?: string;
+  bengaliName?: string;
+  bengaliTask?: string;
+  whenToUseBn?: string[];
+  quickPromptsBn?: string[];
+  targetPathDefault?: string;
+  supportsImplement?: boolean;
 }
 
 export interface Project {
@@ -97,6 +103,18 @@ export interface ExecutionItem {
   started_at?: string | null;
   completed_at?: string | null;
   created_at: string;
+  bn_report?: BengaliReport | null;
+}
+
+export interface BengaliReport {
+  language: 'bn';
+  agent_slug: string;
+  agent_name_bn: string;
+  summary_bn: string;
+  what_agent_did: string;
+  findings: string[];
+  recommendations: string[];
+  limitations: string[];
 }
 
 export type PortfolioSection =

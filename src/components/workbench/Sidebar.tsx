@@ -27,7 +27,7 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
   const navItems: { id: WorkbenchTab; label: string; icon: React.ElementType; badge?: string }[] = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'agents', label: 'Agent Registry', icon: Bot, badge: '8 Planned' },
+    { id: 'agents', label: 'Agent Registry', icon: Bot, badge: '9 Agents' },
     { id: 'executions', label: 'Task Executions', icon: PlayCircle },
     { id: 'gateway', label: 'AI Gateway', icon: Cpu },
     { id: 'architecture', label: 'Architecture Agent', icon: Network, badge: 'Phase 09' },
